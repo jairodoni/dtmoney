@@ -1,0 +1,7 @@
+{
+  "type": "mongodb", 
+  "useUnifiedTopology": true,
+  "synchronize": true, 
+  "logging": false,
+  "entities": ["./src/models/**.{js,ts}"]
+}
