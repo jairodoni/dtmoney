@@ -1,4 +1,4 @@
-import { getCustomRepository } from "typeorm";
+import { getCustomRepository, Transaction } from "typeorm";
 import { Request, Response } from "express";
 import { TransactionsRepository } from "../repositories/TransactionsRepository";
 import { UsersRepository } from "../repositories/UsersRepository";
@@ -10,39 +10,102 @@ class TransactionsController {
     const transactionRepository = getCustomRepository(TransactionsRepository);
     const usersRepository = getCustomRepository(UsersRepository);
 
-    const userAlreadExists = await usersRepository.findOne({
-      email,
-    });
+    try {
+      const userAlreadExists = await usersRepository.findOne({
+        email,
+      });
 
-    if (!userAlreadExists) {
+      if (!userAlreadExists) {
+        return res.status(400).json({
+          error: "Users does not exists.",
+        });
+      }
+      const transaction = transactionRepository.create({
+        title,
+        amount,
+        type,
+        category,
+        user: userAlreadExists,
+      });
+
+      await transactionRepository.save(transaction);
+
+      return res.status(201).json(transaction);
+    } catch (error) {
       return res.status(400).json({
-        error: "Users does not exists.",
+        error: "Failed to create transaction",
       });
     }
-    const transaction = transactionRepository.create({
-      title,
-      amount,
-      type,
-      category,
-      user: userAlreadExists,
-    });
-
-    await transactionRepository.save(transaction);
-
-    return res.status(201).json(transaction);
   }
 
   async show(req: Request, res: Response) {
-    const transactionRepository = getCustomRepository(TransactionsRepository);
     const { email } = req.params;
 
-    const all = await transactionRepository.find({
-      where: {
-        "user.email": { $eq: email },
-      },
-    });
+    try {
+      const transactionRepository = getCustomRepository(TransactionsRepository);
 
-    return res.json(all);
+      const all = await transactionRepository.find({
+        where: {
+          "user.email": { $eq: email },
+        },
+      });
+
+      return res.status(200).json(all);
+    } catch (error) {
+      return res.status(400).json({
+        error: "Failed to get all transaction",
+      });
+    }
+  }
+
+  async update(req: Request, res: Response) {
+    const { title, amount, type, category, email } = req.body;
+    const { id } = req.params;
+
+    try {
+      const transactionRepository = getCustomRepository(TransactionsRepository);
+      const usersRepository = getCustomRepository(UsersRepository);
+
+      const userAlreadExists = await usersRepository.findOne({
+        email,
+      });
+
+      if (!userAlreadExists) {
+        return res.status(400).json({
+          error: "Users does not exists.",
+        });
+      }
+
+      const updateTransaction = await transactionRepository.update(id, {
+        title,
+        amount,
+        type,
+        category,
+        user: userAlreadExists,
+      });
+
+      return res.status(206).json(updateTransaction);
+    } catch (error) {
+      return res.status(400).json({
+        error: "Failed to update transaction",
+      });
+    }
+  }
+
+  async delete(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const transactionRepository = getCustomRepository(TransactionsRepository);
+
+      const transaction = await transactionRepository.delete(id);
+
+      return res.status(200).json(transaction);
+    } catch (error) {
+      return res.status(400).json({
+        error: "Failed to delete transaction",
+      });
+    }
   }
 }
 

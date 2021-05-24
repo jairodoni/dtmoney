@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   :root {
@@ -6,6 +6,7 @@ export const GlobalStyle = createGlobalStyle`
       --blue: #5429CC;
       --green: #33CC95;
       --blue-light: #6933FF;
+      --blue-light02: #8F62FF;
 
       --text-title: #363F5F;
       --text-body: #969CB3;
@@ -90,4 +91,4 @@ export const GlobalStyle = createGlobalStyle`
       filter: brightness(0.8);
     }
   }
-`
+`;

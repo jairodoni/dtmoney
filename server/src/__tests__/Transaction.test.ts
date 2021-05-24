@@ -1,20 +1,23 @@
 import request from "supertest";
-import { getConnection } from "typeorm";
+import { getCustomRepository } from "typeorm";
 import { app } from "../app";
 import createConnection from "../database";
-import { Transaction } from "../models/Transaction";
+import { TransactionsRepository } from "../repositories/TransactionsRepository";
 
-describe("Surveys", () => {
+function Clear() {
+  const transactionsRepository = getCustomRepository(TransactionsRepository);
+  transactionsRepository.clear();
+}
+
+describe("Transactions", () => {
   beforeAll(async () => {
     process.env.NODE_ENV = "test";
     await createConnection();
   });
 
   afterAll(async () => {
-    await getConnection().createQueryBuilder().delete();
+    Clear();
     process.env.NODE_ENV = "dev";
-    let { close } = await createConnection();
-    close();
   });
 
   it("Should be able to create a new transaction", async () => {
@@ -63,6 +66,57 @@ describe("Surveys", () => {
 
     const response = await request(app).get(`/transaction/${user.body.email}`);
 
+    expect(response.status).toBe(200);
     expect(response.body.length).toBe(1);
+  });
+
+  it("Should be able to update transaction", async () => {
+    const transactionRepository = getCustomRepository(TransactionsRepository);
+
+    const getTransaction = await transactionRepository.findOne({
+      where: {
+        title: { $eq: "Tv" },
+      },
+    });
+
+    const response = await request(app)
+      .put(`/transaction/${getTransaction._id}`)
+      .send({
+        title: getTransaction.title,
+        amount: "1500",
+        type: getTransaction.type,
+        category: getTransaction.category,
+        email: "user02@example.com",
+      });
+
+    expect(response.status).toBe(206);
+
+    const findTransaction = await transactionRepository.findOne(
+      getTransaction._id
+    );
+
+    expect(findTransaction.amount).toBe("1500");
+  });
+
+  it("Should be able to delete transaction", async () => {
+    const transactionRepository = getCustomRepository(TransactionsRepository);
+
+    const getTransaction = await transactionRepository.findOne({
+      where: {
+        title: { $eq: "Tv" },
+      },
+    });
+
+    const response = await request(app).delete(
+      `/transaction/${getTransaction._id}`
+    );
+
+    expect(response.status).toBe(200);
+
+    const findTransaction = await transactionRepository.findOne(
+      getTransaction._id
+    );
+
+    expect(findTransaction).toBe(undefined);
   });
 });

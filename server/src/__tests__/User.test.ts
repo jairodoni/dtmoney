@@ -1,12 +1,13 @@
 import request from "supertest";
-import typeorm, { Connection, getConnection } from "typeorm";
+import { getCustomRepository } from "typeorm";
 import { app } from "../app";
 import createConnection from "../database";
-import { User } from "../models/User";
+import { UsersRepository } from "../repositories/UsersRepository";
 
-// async function Connection(){
-//   Connection await createConnection();
-// }
+function Clear() {
+  const usersRepository = getCustomRepository(UsersRepository);
+  usersRepository.clear();
+}
 
 describe("User", () => {
   beforeAll(async () => {
@@ -15,10 +16,8 @@ describe("User", () => {
   });
 
   afterAll(async () => {
-    await getConnection().createQueryBuilder().delete().from(User);
+    Clear();
     process.env.NODE_ENV = "dev";
-    let { close } = await createConnection();
-    close();
   });
 
   it("Should be able to create a new user", async () => {

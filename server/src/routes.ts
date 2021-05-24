@@ -15,4 +15,8 @@ router.post("/transaction", transactionsCrontroller.create);
 
 router.get("/transaction/:email", transactionsCrontroller.show);
 
+router.put("/transaction/:id", transactionsCrontroller.update);
+
+router.delete("/transaction/:id", transactionsCrontroller.delete);
+
 export { router };
