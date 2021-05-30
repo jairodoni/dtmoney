@@ -15,9 +15,7 @@ class UserController {
       });
 
       if (userAlreadExists) {
-        return res.status(400).json({
-          error: "User already exists!",
-        });
+        res.status(200);
       }
 
       const user = usersRepository.create({
