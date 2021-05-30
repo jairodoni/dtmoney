@@ -10,6 +10,8 @@ const themeDark = {
     buttons: '#875CF2',
     textTitle: '#D6DEFF',
     textBody: '#969CB3',
+    borderColor: '#7D8C9E',
+    borderInputHover: '#8F62FF',
 
     green: '#33CC95',
     red: '#E52E40',

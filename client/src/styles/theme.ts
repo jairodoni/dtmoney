@@ -10,6 +10,9 @@ const theme = {
     textTitle: '#363F5F',
     textBody: '#969CB3',
 
+    borderColor: '#d7d7d7',
+    borderInputHover: '#6933FF',
+
     green: '#33CC95',
     red: '#E52E40',
     white: '#F0F2F5'

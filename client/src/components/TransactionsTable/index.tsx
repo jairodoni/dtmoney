@@ -1,9 +1,11 @@
+import { Fade } from "@material-ui/core";
 import { useSession } from "next-auth/client";
 import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import { useTransactions } from "../../hooks/useTransactions";
 import { api } from "../../services/api";
 import { EditTransactionModal } from "../EditTransactionModal";
+import { InputButton } from "../InputSearch";
 import { Container } from "./styles";
 
 interface Transaction {
@@ -27,6 +29,13 @@ export function TransactionsTable({ darkMode }: TransactionsTableProps) {
 
   const [isEditTransactionModalOpen, setIsEditTransactionModalOpen] = useState(false);
 
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = () => {
+    setChecked((prev) => !prev);
+  };
+
+
   function handleOpenNewTransactionModal(transactionSelected: Transaction) {
     setTransaction(transactionSelected)
     const { email } = session.user;
@@ -47,10 +56,19 @@ export function TransactionsTable({ darkMode }: TransactionsTableProps) {
 
   useEffect(() => {
     GetTransactions();
+
   }, [session])
 
+  useEffect(() => {
+    handleChange();
+  }, [])
+
+
   return (
+
+
     <Container>
+      <InputButton />
       <table>
         <thead>
           <tr>
@@ -62,31 +80,33 @@ export function TransactionsTable({ darkMode }: TransactionsTableProps) {
             <th>Excluir</th>
           </tr>
         </thead>
-        <tbody>
-          {transactions.map(transaction => (
-            <tr key={transaction._id}>
-              <td>{transaction.title}</td>
-              <td className={transaction.type}>
-                {new Intl.NumberFormat('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL'
-                }).format(transaction.amount)}
-              </td>
-              <td>{transaction.category}</td>
-              <td>
-                {new Intl.DateTimeFormat('pt-BR').format(
-                  new Date(transaction.created_at)
-                )}
-              </td>
-              <td>
-                <FiEdit size={19} className="edit" onClick={() => handleOpenNewTransactionModal(transaction)} />
-              </td>
-              <td>
-                <FiTrash2 size={19} className="delete" onClick={() => deleteTransaction(transaction._id)} />
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        <Fade in={checked}>
+          <tbody>
+            {transactions.map(transaction => (
+              <tr key={transaction._id}>
+                <td>{transaction.title}</td>
+                <td className={transaction.type}>
+                  {new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                  }).format(transaction.amount)}
+                </td>
+                <td>{transaction.category}</td>
+                <td>
+                  {new Intl.DateTimeFormat('pt-BR').format(
+                    new Date(transaction.created_at)
+                  )}
+                </td>
+                <td>
+                  <FiEdit size={19} className="edit" onClick={() => handleOpenNewTransactionModal(transaction)} />
+                </td>
+                <td>
+                  <FiTrash2 size={19} className="delete" onClick={() => deleteTransaction(transaction._id)} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Fade>
       </table>
       <EditTransactionModal
         isOpen={isEditTransactionModalOpen}

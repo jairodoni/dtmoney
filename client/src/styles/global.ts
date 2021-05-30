@@ -40,7 +40,7 @@ export default createGlobalStyle`
 
 
 
-  body, input, textarea, button {
+  body, input, textarea, button, label {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
   }

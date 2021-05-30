@@ -4,6 +4,7 @@ import { darken, transparentize } from 'polished';
 interface DarkMode {
   darkMode: boolean;
 }
+
 export const Container = styled.form<DarkMode>`
   h2 {
     color: ${props => props.theme.colors.textTitle};
@@ -16,8 +17,10 @@ export const Container = styled.form<DarkMode>`
     padding: 0 1.5rem;
     height: 4rem;
     border-radius: 0.25rem;
+    border: ${props =>
+      props.darkMode === false ? `1px solid #d7d7d7` : 'none'};
 
-    border: 1px solid #d7d7d7;
+    /* border: 1px solid #d7d7d7; */
     background: ${props => (props.darkMode === true ? '#272E45' : '#e7e9ee')};
     color: ${props => props.theme.colors.textTitle};
 
@@ -26,6 +29,12 @@ export const Container = styled.form<DarkMode>`
 
     &::placeholder {
       color: ${props => props.theme.colors.textBody};
+    }
+    &:active {
+      border: 2px solid ${props => props.theme.colors.blue};
+    }
+    &:hover {
+      border: 1px solid ${props => props.theme.colors.borderInputHover};
     }
 
     & + input {
@@ -84,7 +93,7 @@ export const RadioBox = styled.button<RadioBoxProps>`
   justify-content: center;
 
   transition: border-color 0.2s;
-
+  border-color: ${props => darken(0.1, props.theme.colors.borderColor)};
   &:hover {
     border-color: ${darken(0.1, '#d7d7d7')};
   }

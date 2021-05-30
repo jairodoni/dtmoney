@@ -7,7 +7,7 @@ import { Header } from "../components/HeaderHome";
 import { NewTransactionModal } from "../components/NewTransactionModal";
 import { TransactionsProvider } from '../hooks/useTransactions';
 
-
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 // Modal.setAppElement('#root')
 
 interface User {
@@ -40,24 +40,26 @@ export default function Home({ handleDarkMode, darkMode, session }: HomeProps) {
   return (
 
     <TransactionsProvider>
-      <head>
-        <title>Home | My Wallet</title>
-      </head>
-      <div>
+      <MuiThemeProvider theme={theme}>
+        <head>
+          <title>Home | My Wallet</title>
+        </head>
+        <div>
 
-        <Header
-          onOpenNewTransactionsModal={handleOpenNewTransactionModal}
-          handleDarkMode={handleDarkMode}
-          darkMode={darkMode}
-          session={session}
-        />
-        <Dashboard darkMode={darkMode} />
-        <NewTransactionModal
-          isOpen={isNewTransactionModalOpen}
-          onRequestClose={handleCloseNewTransactionModal}
-          darkMode={darkMode}
-        />
-      </div>
+          <Header
+            onOpenNewTransactionsModal={handleOpenNewTransactionModal}
+            handleDarkMode={handleDarkMode}
+            darkMode={darkMode}
+            session={session}
+          />
+          <Dashboard darkMode={darkMode} />
+          <NewTransactionModal
+            isOpen={isNewTransactionModalOpen}
+            onRequestClose={handleCloseNewTransactionModal}
+            darkMode={darkMode}
+          />
+        </div>
+      </MuiThemeProvider>
     </TransactionsProvider>
   )
 }
@@ -80,3 +82,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
     }
   }
 }
+
+const theme = createMuiTheme({
+  palette: {
+    // type: "dark",
+    primary: {
+      main: "#8F62FF",
+    },
+    secondary: {
+      main: "#5429CC",
+    },
+  },
+});

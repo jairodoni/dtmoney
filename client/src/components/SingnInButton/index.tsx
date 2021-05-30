@@ -1,20 +1,34 @@
+import { CircularProgress } from "@material-ui/core";
 import { signIn, signOut, useSession } from "next-auth/client";
 import { Loading } from "../Loading";
 import { SingnIn, SingnOut } from './styles';
+import { FcGoogle } from 'react-icons/fc'
+import { GoSignOut } from 'react-icons/go';
 
 export function SingnInButton() {
   const [session, loading] = useSession();
 
   return !session ? (
     <SingnIn type="button" onClick={(): Promise<void> => signIn("google")}>
-      {!loading
-        ? "Login"
-        : <Loading />
+      {!loading ? (
+        <>
+          <FcGoogle size={19} />
+          <span>Login</span>
+        </>
+      )
+        : <CircularProgress color="secondary" style={{ padding: "8px" }} />
       }
     </SingnIn>
   ) : (
     <SingnOut type="button" onClick={(): Promise<void> => signOut()} >
-      Logout
+      {!loading ? (
+        <>
+          <GoSignOut size={18} style={{ marginRight: '5px', marginTop: "3px" }} />
+          <span>Logout</span>
+        </>
+      )
+        : <CircularProgress color="secondary" style={{ padding: "8px" }} />
+      }
     </SingnOut>
   )
 }
