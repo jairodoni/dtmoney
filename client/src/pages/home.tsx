@@ -40,7 +40,7 @@ export default function Home({ handleDarkMode, darkMode, session }: HomeProps) {
   return (
 
     <TransactionsProvider>
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={themeUI}>
         <head>
           <title>Home | My Wallet</title>
         </head>
@@ -83,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
   }
 }
 
-const theme = createMuiTheme({
+const themeUI = createMuiTheme({
   palette: {
     // type: "dark",
     primary: {

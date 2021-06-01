@@ -7,7 +7,7 @@ import { GoSignOut } from 'react-icons/go';
 import { RiMoonClearFill } from 'react-icons/ri';
 import { Container, Content, Perfil } from './styles';
 import { signOut } from "next-auth/client";
-
+import Cookies from 'js-cookie';
 
 interface User {
   user: {
@@ -38,6 +38,8 @@ export function Header({ onOpenNewTransactionsModal, handleDarkMode, darkMode, s
 
   const open = Boolean(options);
   const id = open ? 'simple-popover' : undefined;
+
+
   return (
     <Container>
       <Content>
@@ -71,6 +73,9 @@ export function Header({ onOpenNewTransactionsModal, handleDarkMode, darkMode, s
           </Perfil>
 
           <Popover
+            classes={{
+              paper: darkMode ? classes.paperDark : classes.paperLight,
+            }}
             id={id}
             open={open}
             anchorEl={options}
@@ -99,23 +104,32 @@ export function Header({ onOpenNewTransactionsModal, handleDarkMode, darkMode, s
   )
 }
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    paperLight: {
+      background: "#eee",
+      color: "#585858",
+    },
+    paperDark: {
+      background: "#272E45",
+      color: "#ddd",
+    },
     typography: {
+      fontFamily: "Poppins",
       padding: theme.spacing(1.5),
     },
     box: {
       display: "flex",
       alignItems: 'center',
       justifyContent: 'center',
-      padding: "0 5px ",
-      color: "#585858",
+      marginLeft: "10px",
+
+
 
       transition: "background 0.2s",
 
       '&:hover': {
-        background: "#d7d7d7"
+        background: "#bbb"
       }
     }
   }),

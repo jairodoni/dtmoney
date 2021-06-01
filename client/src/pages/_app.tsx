@@ -1,8 +1,8 @@
 import { AppProps } from 'next/app';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { Provider as NextAuthProvider } from 'next-auth/client';
-
+import Cookies from 'js-cookie'
 
 // import { GlobalStyle } from '../styles/global';
 import GlobalStyles from '../styles/global';
@@ -13,12 +13,32 @@ import themeDark from '../styles/themeDark';
 
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
+
   const typeTheme = darkMode ? themeDark : theme;
-  function handleDarkMode() {
-    setDarkMode(!darkMode)
+
+  async function handleDarkMode() {
+    await setDarkMode(!darkMode)
+    const teste = String(darkMode);
+    Cookies.set('darkMode', String(darkMode));
+
+    // const status = await Cookies.get('darkMode');
+
+
+
+
 
   }
+
+  useEffect(() => {
+    const cookie = Cookies.get('darkMode');
+    var status = cookie.toLowerCase() == 'true' || cookie.toLowerCase() == 'false';
+    if (status) {
+      // console.log(cookie.toLowerCase() == 'true')
+      // const teste = JSON.stringify(status);
+      setDarkMode(Boolean(cookie))
+    }
+  }, [])
 
   return (
     <NextAuthProvider session={pageProps.session}>

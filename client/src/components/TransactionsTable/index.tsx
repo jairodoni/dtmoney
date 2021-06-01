@@ -68,7 +68,7 @@ export function TransactionsTable({ darkMode }: TransactionsTableProps) {
 
 
     <Container>
-      <InputButton />
+      <InputButton darkMode={darkMode} />
       <table>
         <thead>
           <tr>
