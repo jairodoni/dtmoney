@@ -13,9 +13,7 @@ import { ServerStyleSheet } from 'styled-components';
 // Modal.setAppElement('#root')
 
 export default class MyDocument extends Document {
-  static async getInitialProps(
-    ctx: DocumentContext
-  ): Promise<DocumentInitialProps> {
+  static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
 
@@ -50,8 +48,7 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
             rel="stylesheet"
           />
-
-          <link rel="ico" href="https://rocketseat.com.br/favicon.ico" />
+          {/* <link rel="ico" href="https://rocketseat.com.br/favicon.ico" /> */}
 
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

@@ -3,7 +3,7 @@ import { getSession } from 'next-auth/client';
 import { useState } from 'react';
 // import Modal from 'react-modal';
 import { Dashboard } from "../components/Dashboard";
-import { Header } from "../components/HeaderHome";
+import { HeaderHome } from "../components/HeaderHome";
 import { NewTransactionModal } from "../components/NewTransactionModal";
 import { TransactionsProvider } from '../hooks/useTransactions';
 
@@ -18,14 +18,12 @@ interface User {
   }
 }
 
-
 interface HomeProps {
   handleDarkMode: () => void;
-  darkMode: boolean;
   session: User;
 }
 
-export default function Home({ handleDarkMode, darkMode, session }: HomeProps) {
+export default function Home({ handleDarkMode, session }: HomeProps) {
 
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
 
@@ -46,17 +44,15 @@ export default function Home({ handleDarkMode, darkMode, session }: HomeProps) {
         </head>
         <div>
 
-          <Header
+          <HeaderHome
             onOpenNewTransactionsModal={handleOpenNewTransactionModal}
             handleDarkMode={handleDarkMode}
-            darkMode={darkMode}
             session={session}
           />
-          <Dashboard darkMode={darkMode} />
+          <Dashboard />
           <NewTransactionModal
             isOpen={isNewTransactionModalOpen}
             onRequestClose={handleCloseNewTransactionModal}
-            darkMode={darkMode}
           />
         </div>
       </MuiThemeProvider>

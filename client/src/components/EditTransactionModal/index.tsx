@@ -1,8 +1,8 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/client';
-import Modal from 'react-modal';
 import { useTransactions } from '../../hooks/useTransactions';
 import { Container, RadioBox, TransactionTypeContainer } from './styles';
+import Modal from 'react-modal';
 
 interface Transaction {
   _id: string;
@@ -17,10 +17,9 @@ interface EditTransactionModalProps {
   transaction: Transaction;
   isOpen: boolean;
   onRequestClose: () => void;
-  darkMode: boolean;
 }
 
-export function EditTransactionModal({ isOpen, onRequestClose, darkMode, transaction }: EditTransactionModalProps) {
+export function EditTransactionModal({ isOpen, onRequestClose, transaction }: EditTransactionModalProps) {
   const { editTransaction } = useTransactions();
 
   const [title, setTitle] = useState('')
@@ -68,7 +67,7 @@ export function EditTransactionModal({ isOpen, onRequestClose, darkMode, transac
         <img src="/images/close.svg" alt="Fechar modal" />
       </button>
 
-      <Container onSubmit={handleOpenNewTransactionModal} darkMode={darkMode}>
+      <Container onSubmit={handleOpenNewTransactionModal}>
         <h2>Editar transação</h2>
 
         <input
@@ -88,7 +87,6 @@ export function EditTransactionModal({ isOpen, onRequestClose, darkMode, transac
         <TransactionTypeContainer>
           <RadioBox
             type="button"
-            // className={type === 'deposit' ? 'active' : ''}
             onClick={() => { setType('deposit') }}
             isActive={type === 'deposit'}
             activeColor="green"

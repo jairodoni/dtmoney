@@ -1,9 +1,8 @@
-import { CircularProgress } from "@material-ui/core";
 import { signIn, signOut, useSession } from "next-auth/client";
-import { Loading } from "../Loading";
-import { SingnIn, SingnOut } from './styles';
+import { CircularProgress } from "@material-ui/core";
 import { FcGoogle } from 'react-icons/fc'
 import { GoSignOut } from 'react-icons/go';
+import { SingnIn, SingnOut } from './styles';
 
 export function SingnInButton() {
   const [session, loading] = useSession();

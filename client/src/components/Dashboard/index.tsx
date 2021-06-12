@@ -2,15 +2,11 @@ import { Summary } from "../Summary";
 import { TransactionsTable } from "../TransactionsTable";
 import { Container } from "./styles";
 
-interface DashboardProps {
-  darkMode: boolean;
-}
-
-export function Dashboard({ darkMode }: DashboardProps) {
+export function Dashboard() {
   return (
     <Container>
       <Summary />
-      <TransactionsTable darkMode={darkMode} />
+      <TransactionsTable />
     </Container>
   )
 }

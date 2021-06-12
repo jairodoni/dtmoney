@@ -1,13 +1,15 @@
 
-import React from 'react';
-import { Avatar, Box, Button, createStyles, makeStyles, Menu, MenuItem, Popover, Theme, Typography } from '@material-ui/core';
-import { useState } from 'react';
-import { IoSunny } from 'react-icons/io5';
-import { GoSignOut } from 'react-icons/go';
-import { RiMoonClearFill } from 'react-icons/ri';
-import { Container, Content, Perfil } from './styles';
+import { MouseEvent, useContext, useEffect, useState } from 'react';
 import { signOut } from "next-auth/client";
-import Cookies from 'js-cookie';
+import { CSVLink } from "react-csv";
+import { FaFileExport } from 'react-icons/fa';
+import { GoSignOut } from 'react-icons/go';
+import { IoSunny } from 'react-icons/io5';
+import { RiMoonClearFill } from 'react-icons/ri';
+import { useTransactions } from '../../hooks/useTransactions';
+import { PopoverComponent } from '../PopoverComponent';
+import { ThemeContext } from 'styled-components';
+import { AvatarStyled, Container, Content, Perfil } from './styles';
 
 interface User {
   user: {
@@ -20,36 +22,70 @@ interface User {
 interface HeaderProps {
   onOpenNewTransactionsModal: () => void;
   handleDarkMode: () => void;
-  darkMode: boolean;
   session: User;
 }
 
-export function Header({ onOpenNewTransactionsModal, handleDarkMode, darkMode, session }: HeaderProps) {
-  const [options, setOptions] = useState<null | HTMLElement>(null);
-  const classes = useStyles();
+export function HeaderHome({
+  onOpenNewTransactionsModal,
+  handleDarkMode,
+  session
+}: HeaderProps) {
+  const { transactions } = useTransactions();
+  const { title } = useContext(ThemeContext);
 
-  function handleOpenOptions(event: React.MouseEvent<HTMLButtonElement>) {
+  const [options, setOptions] = useState<null | HTMLElement>(null);
+  const [iconType, setIconType] = useState("");
+
+  const headers = [
+    { label: "Titulo", key: "title" },
+    { label: "Valor", key: "amount" },
+    { label: "Categoria", key: "category" }
+  ];
+
+  function handleOpenOptions(event: MouseEvent<HTMLDivElement>) {
     setOptions(event.currentTarget);
   }
 
-  function handleCloseOptions() {
-    setOptions(null);
+  useEffect(() => {
+    setIconType(title)
+  }, [title])
+
+  const OptionsComponent = () => {
+    return (
+      <PopoverComponent
+        options={options}
+        setOptions={setOptions}
+      >
+        <CSVLink
+          data={transactions}
+          headers={headers}
+          target="My_Wallet"
+        >
+          <button>
+            <FaFileExport size={19} />
+            Exportar CSV
+          </button>
+        </CSVLink>
+        <button onClick={(): Promise<void> => signOut()}>
+          <GoSignOut size={21} />
+          Logout
+        </button>
+      </PopoverComponent >
+    )
   }
-
-  const open = Boolean(options);
-  const id = open ? 'simple-popover' : undefined;
-
 
   return (
     <Container>
       <Content>
+        <OptionsComponent />
+
         <img src="/images/logo02.svg" alt="dt money" />
 
         <div>
           <Perfil>
 
             <button onClick={handleDarkMode}>
-              {darkMode
+              {iconType === "dark"
                 ? <IoSunny size={21} color="#fff" />
                 : <RiMoonClearFill size={18} color="#fff" />
               }
@@ -65,72 +101,22 @@ export function Header({ onOpenNewTransactionsModal, handleDarkMode, darkMode, s
               <span>{session.user.email}</span>
             </div>
             <div className="divider" />
-            <Avatar
-              alt={session.user.name}
-              src={session.user.image}
-              onClick={handleOpenOptions}
-            />
-          </Perfil>
 
-          <Popover
-            classes={{
-              paper: darkMode ? classes.paperDark : classes.paperLight,
-            }}
-            id={id}
-            open={open}
-            anchorEl={options}
-            onClose={handleCloseOptions}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-          >
-            <Box className={classes.box} onClick={(): Promise<void> => signOut()}>
-              <GoSignOut size={21} />
-              <Typography className={classes.typography}>Logout</Typography>
-            </Box>
-          </Popover>
+            <AvatarStyled onClick={handleOpenOptions}
+            >
+              <img
+                alt={session.user.name}
+                src={session.user.image}
+              />
+            </AvatarStyled>
+          </Perfil>
 
           <button type="button" onClick={onOpenNewTransactionsModal}>
             Nova transação
-        </button>
+          </button>
         </div>
       </Content>
     </Container >
   )
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    paperLight: {
-      background: "#eee",
-      color: "#585858",
-    },
-    paperDark: {
-      background: "#272E45",
-      color: "#ddd",
-    },
-    typography: {
-      fontFamily: "Poppins",
-      padding: theme.spacing(1.5),
-    },
-    box: {
-      display: "flex",
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginLeft: "10px",
-
-
-
-      transition: "background 0.2s",
-
-      '&:hover': {
-        background: "#bbb"
-      }
-    }
-  }),
-);

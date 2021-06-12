@@ -49,8 +49,13 @@ class TransactionsController {
           "user.email": { $eq: email },
         },
       });
+      const sortedTransactions = all.sort((a, b) => {
+        const date01 = new Date(b.created_at);
+        const date02 = new Date(a.created_at);
+        return date01 - date02;
+      });
 
-      return res.status(200).json(all);
+      return res.status(200).json(sortedTransactions);
     } catch (error) {
       return res.status(400).json({
         error: "Failed to get all transaction",

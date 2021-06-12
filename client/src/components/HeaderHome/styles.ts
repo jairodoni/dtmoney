@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { PopoverContainer } from '../InputSearch/styles';
 
 export const Container = styled.header`
   background: ${props => props.theme.colors.blue};
@@ -87,5 +88,28 @@ export const Perfil = styled.section`
     width: 100%;
     display: block;
     color: ${props => props.theme.colors.white};
+  }
+`;
+
+export const AvatarStyled = styled.div`
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 2px;
+
+  img {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+  }
+
+  transition: filter 0.2s;
+
+  &:hover {
+    filter: brightness(0.7);
   }
 `;

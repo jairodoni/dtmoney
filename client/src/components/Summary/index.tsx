@@ -1,8 +1,6 @@
 import { useTransactions } from '../../hooks/useTransactions';
 import { Container } from "./styled";
 
-
-
 export function Summary() {
   const { transactions } = useTransactions();
 
@@ -24,7 +22,7 @@ export function Summary() {
 
   return (
     <Container>
-      <div>
+      <div className="summary">
         <header>
           <p>Entradas</p>
           <img src="/images/income.svg" alt="Entradas" />
@@ -36,7 +34,7 @@ export function Summary() {
           }).format(summary.deposits)}
         </strong>
       </div>
-      <div>
+      <div className="summary">
         <header>
           <p>Saidas</p>
           <img src="/images/outcome.svg" alt="Saidas" />

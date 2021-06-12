@@ -4,7 +4,7 @@ export const SingnIn = styled.button`
   width: 7rem;
   font-size: 1rem;
   color: #fff;
-  background: var(--blue-light);
+  background: ${props => props.theme.colors.blueLight};
   border: 0;
   padding: 0 1rem;
   border-radius: 3rem;
@@ -23,7 +23,7 @@ export const SingnOut = styled.button`
   width: 7rem;
   font-size: 1rem;
   color: #fff;
-  background: var(--blue-light);
+  background: ${props => props.theme.colors.blueLight};
   border: 0;
   padding: 0 1rem;
   border-radius: 3rem;

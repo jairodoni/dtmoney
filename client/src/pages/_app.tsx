@@ -1,53 +1,42 @@
 import { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
-import { ThemeProvider } from 'styled-components';
+import { DefaultTheme, ThemeProvider } from 'styled-components';
 import { Provider as NextAuthProvider } from 'next-auth/client';
-import Cookies from 'js-cookie'
+import { ToastContainer } from 'react-toastify';
 
-// import { GlobalStyle } from '../styles/global';
+import usePersistedState from '../styles/utils/usePersistedState';
 import GlobalStyles from '../styles/global';
-import theme from '../styles/theme';
-import themeDark from '../styles/themeDark';
+import light from '../styles/light';
+import dark from '../styles/dark';
 
 
+export default function MyApp({ Component, pageProps }: AppProps) {
+  const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light);
 
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const [darkMode, setDarkMode] = useState(false);
-
-  const typeTheme = darkMode ? themeDark : theme;
-
-  async function handleDarkMode() {
-    await setDarkMode(!darkMode)
-    const teste = String(darkMode);
-    Cookies.set('darkMode', String(darkMode));
-
-    // const status = await Cookies.get('darkMode');
-
-
-
-
-
+  function handleDarkMode() {
+    setTheme(theme.title === 'dark' ? light : dark)
   }
-
-  useEffect(() => {
-    const cookie = Cookies.get('darkMode');
-    var status = cookie.toLowerCase() == 'true' || cookie.toLowerCase() == 'false';
-    if (status) {
-      // console.log(cookie.toLowerCase() == 'true')
-      // const teste = JSON.stringify(status);
-      setDarkMode(Boolean(cookie))
-    }
-  }, [])
 
   return (
     <NextAuthProvider session={pageProps.session}>
-      <ThemeProvider theme={typeTheme}>
-        <Component {...pageProps} handleDarkMode={handleDarkMode} darkMode={darkMode} />
+      <ThemeProvider theme={theme}>
+        <Component
+          {...pageProps}
+          handleDarkMode={handleDarkMode}
+          setTheme={setTheme}
+          theme={theme}
+        />
         <GlobalStyles />
+        <ToastContainer
+          position="bottom-left"
+          autoClose={3000}
+          style={{ fontSize: 16 }}
+        />
       </ThemeProvider>
     </NextAuthProvider>
   );
 }
 
-export default MyApp;
+
+

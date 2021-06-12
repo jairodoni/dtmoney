@@ -1,11 +1,7 @@
 import styled from 'styled-components';
 import { darken, transparentize } from 'polished';
 
-interface DarkMode {
-  darkMode: boolean;
-}
-
-export const Container = styled.form<DarkMode>`
+export const Container = styled.form`
   h2 {
     color: ${props => props.theme.colors.textTitle};
     font-size: 1.5rem;
@@ -17,12 +13,14 @@ export const Container = styled.form<DarkMode>`
     padding: 0 1.5rem;
     height: 4rem;
     border-radius: 0.25rem;
-    border: ${props =>
-      props.darkMode === false ? `1px solid #d7d7d7` : 'none'};
 
-    /* border: 1px solid #d7d7d7; */
-    background: ${props => (props.darkMode === true ? '#272E45' : '#e7e9ee')};
+    background: ${props =>
+      props.theme.title === 'light' ? '#e7e9ee' : '#272E45'};
+
     color: ${props => props.theme.colors.textTitle};
+
+    border: ${props =>
+      props.theme.title === 'light' ? `1px solid #d7d7d7` : 'none'};
 
     font-weight: 400;
     font-size: 1rem;

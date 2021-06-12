@@ -1,23 +1,12 @@
 import { createGlobalStyle } from 'styled-components';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { Container } from '../components/TransactionsTable/styles';
+import styled from 'styled-components';
 export default createGlobalStyle`
   *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  :root {
-      --red: #E52E40;
-      --blue: #5429CC;
-      --green: #33CC95;
-      --blue-light: #6933FF;
-      --blue-light02: #8F62FF;
-
-      --text-title: #363F5F;
-      --text-body: #969CB3;
-
-      --background: #F0F2F5;
-      --shape: #FFFFFF;
   }
 
   body {
@@ -38,8 +27,6 @@ export default createGlobalStyle`
     }
   }
 
-
-
   body, input, textarea, button, label {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
@@ -47,6 +34,10 @@ export default createGlobalStyle`
 
   h1, h2, h3, h4, h5, h6, strong {
     font-weight: 600;
+  }
+
+  a {
+    text-decoration: none;
   }
 
   button {
@@ -72,9 +63,9 @@ export default createGlobalStyle`
     justify-content: center;
   }
   .react-modal-content {
+    background: ${props => props.theme.colors.background};
     width: 100%;
     max-width: 576px;
-    background: ${props => props.theme.colors.background};
     padding: 3rem;
     position: relative;
     border-radius: 0.24rem;
@@ -92,5 +83,116 @@ export default createGlobalStyle`
       filter: brightness(0.8);
     }
   }
+  
 
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #1A1E2E;
+  }
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    opacity: 0.4;
+    background:#3D466B;
+  }
+
+  .transaction-table {
+    /* th {
+      color: ${props => props.theme.colors.textBody};
+    } */
+    .body-table td {
+      background: ${props => props.theme.colors.shape};
+      color: ${props => props.theme.colors.textBody};
+
+      svg {
+        background: ${props => props.theme.colors.shape};
+        transition: filter 0.2s;
+
+        &:hover {
+          filter: brightness(0.85);
+        }
+        &.edit {
+            color: ${props => props.theme.colors.buttons};
+          }
+        &.delete {
+          color: ${props => props.theme.colors.red};
+        }
+      }
+
+      &:first-child {
+        color: ${props => props.theme.colors.textTitle};
+      }   
+
+      &.deposit {
+        color: ${props => props.theme.colors.green};
+      }
+
+      &.withdraw {
+        color: ${props => props.theme.colors.red};
+      }
+    }
+
+  }
+  .summary {
+    background: ${props => props.theme.colors.shape};
+    color: ${props => props.theme.colors.textTitle};
+  }
+
+  .inputSearch {
+    background: ${props => props.theme.colors.shape};
+    color: ${props => props.theme.colors.shape02};
+  }
+  .input-search {
+    background: ${props => props.theme.colors.shape};
+    color: ${props => props.theme.colors.textTitle};
+    input{
+      background: ${props => props.theme.colors.shape};
+      color: ${props => props.theme.colors.textTitle};
+
+      border: ${props =>
+        props.theme.title === 'light' ? `1px solid #d7d7d7` : 'none'};
+        
+      border: none;
+      &::placeholder {
+        color: ${props => props.theme.colors.textBody};
+        filter: brightness(0.8);
+      }
+    }
+    button {
+      color: ${props => props.theme.colors.textTitle};
+
+      transition: filter 0.2s;
+
+      &:hover { 
+        filter: brightness(0.7)
+      }
+    }
+  }
+  
+  .popover {
+    button{
+      background: ${props => props.theme.colors.popover};
+      color: ${props => props.theme.colors.shape02};
+
+      a{
+        background: none;
+        color: ${props => props.theme.colors.shape02};
+      }
+      a:active{
+        color: ${props => props.theme.colors.shape02};
+      }
+
+      transition: background 0.2s;
+
+      &:hover{
+        background: ${props => props.theme.colors.hover};
+      }
+    }
+  }
 `;

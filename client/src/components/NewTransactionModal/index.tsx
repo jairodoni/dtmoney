@@ -1,16 +1,16 @@
-import { useSession } from 'next-auth/client';
 import { FormEvent, useEffect, useState } from 'react';
-import Modal from 'react-modal';
+import { useSession } from 'next-auth/client';
 import { useTransactions } from '../../hooks/useTransactions';
 import { Container, RadioBox, TransactionTypeContainer } from './styles';
+import Modal from 'react-modal';
+
 
 interface NewTransactionModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  darkMode: boolean;
 }
 
-export function NewTransactionModal({ isOpen, onRequestClose, darkMode }: NewTransactionModalProps) {
+export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
   const { createTransaction } = useTransactions();
 
   const [title, setTitle] = useState('')
@@ -62,7 +62,7 @@ export function NewTransactionModal({ isOpen, onRequestClose, darkMode }: NewTra
         <img src="/images/close.svg" alt="Fechar modal" />
       </button>
 
-      <Container onSubmit={handleOpenNewTransactionModal} darkMode={darkMode}>
+      <Container onSubmit={handleOpenNewTransactionModal}>
         <h2>Cadastrar transação</h2>
 
         <input
@@ -82,7 +82,6 @@ export function NewTransactionModal({ isOpen, onRequestClose, darkMode }: NewTra
         <TransactionTypeContainer>
           <RadioBox
             type="button"
-            // className={type === 'deposit' ? 'active' : ''}
             onClick={() => { setType('deposit') }}
             isActive={type === 'deposit'}
             activeColor="green"

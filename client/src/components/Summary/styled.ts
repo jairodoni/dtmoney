@@ -7,10 +7,8 @@ export const Container = styled.div`
   margin-top: -10rem;
 
   div {
-    background: ${props => props.theme.colors.shape};
     padding: 1.5rem 2rem;
     border-radius: 0.25rem;
-    color: ${props => props.theme.colors.textTitle};
 
     header {
       display: flex;

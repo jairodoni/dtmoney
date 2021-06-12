@@ -1,6 +1,7 @@
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/client';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+
 import { HeaderLogin } from "../components/HeaderLogin";
 import { Container } from '../styles/login';
 
@@ -11,7 +12,7 @@ export default function Login() {
       <head>
         <title>Login | My Wallet</title>
       </head>
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={themeUI}>
         <div>
 
           <HeaderLogin />
@@ -27,7 +28,7 @@ export default function Login() {
                   The voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus.
                   Zonbi tattered for solum oculi eorum defunctis go lum cerebro. Nescio brains an Undead zombies.
                   Sicut malus putrid voodoo horror. Nigh tofth eliv ingdead.
-            </p>
+                </p>
               </div>
             </div>
             <section>
@@ -64,9 +65,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
   }
 }
 
-const theme = createMuiTheme({
+const themeUI = createMuiTheme({
   palette: {
-    // type: "dark",
     primary: {
       main: "#8F62FF",
     },
