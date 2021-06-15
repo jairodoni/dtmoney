@@ -38,6 +38,10 @@ export const Container = styled.form`
     & + input {
       margin-top: 1rem;
     }
+    & + div {
+      margin-top: 1rem;
+      width: 100%;
+    }
   }
 
   button[type='submit'] {

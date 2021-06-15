@@ -31,7 +31,7 @@ export default createGlobalStyle`
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
   }
-
+  
   h1, h2, h3, h4, h5, h6, strong {
     font-weight: 600;
   }
@@ -84,7 +84,10 @@ export default createGlobalStyle`
     }
   }
   
-
+  .data {
+   background: "#000";
+   color: "#fff";
+  }
 
   /* width */
   ::-webkit-scrollbar {

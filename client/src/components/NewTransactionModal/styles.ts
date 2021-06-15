@@ -9,6 +9,8 @@ export const Container = styled.form`
   }
 
   input {
+    max-width: 576px;
+    border: 2px solid red;
     width: 100%;
     padding: 0 1.5rem;
     height: 4rem;
@@ -37,6 +39,11 @@ export const Container = styled.form`
 
     & + input {
       margin-top: 1rem;
+    }
+
+    & + div {
+      margin-top: 1rem;
+      width: 100%;
     }
   }
 

@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
-import { useEffect, useState } from 'react';
 import { DefaultTheme, ThemeProvider } from 'styled-components';
 import { Provider as NextAuthProvider } from 'next-auth/client';
+
 import { ToastContainer } from 'react-toastify';
 
 import usePersistedState from '../styles/utils/usePersistedState';

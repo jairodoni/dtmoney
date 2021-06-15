@@ -17,6 +17,7 @@ interface Transaction {
   amount: number;
   category: string;
   type: string;
+  effectuation_date: Date;
   email: string;
   created_at: string;
 }
@@ -79,7 +80,7 @@ export function TransactionsTable() {
     ) {
       return transaction;
     } else if (new Intl.DateTimeFormat('pt-BR')
-      .format(new Date(transaction.created_at)).toLowerCase()
+      .format(new Date(transaction.effectuation_date)).toLowerCase()
       .includes(inputSearch.toLowerCase())
     ) {
       return transaction;
@@ -116,7 +117,7 @@ export function TransactionsTable() {
                     <td>{transaction.category}</td>
                     <td>
                       {new Intl.DateTimeFormat('pt-BR').format(
-                        new Date(transaction.created_at)
+                        new Date(transaction.effectuation_date)
                       )}
                     </td>
                     <td>

@@ -1,6 +1,8 @@
 
 import { MouseEvent, useContext, useEffect, useState } from 'react';
 import { signOut } from "next-auth/client";
+import { Tooltip, Zoom } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CSVLink } from "react-csv";
 import { FaFileExport } from 'react-icons/fa';
 import { GoSignOut } from 'react-icons/go';
@@ -9,6 +11,7 @@ import { RiMoonClearFill } from 'react-icons/ri';
 import { useTransactions } from '../../hooks/useTransactions';
 import { PopoverComponent } from '../PopoverComponent';
 import { ThemeContext } from 'styled-components';
+import { Tip } from './Tip'
 import { AvatarStyled, Container, Content, Perfil } from './styles';
 
 interface User {
@@ -42,6 +45,8 @@ export function HeaderHome({
     { label: "Categoria", key: "category" }
   ];
 
+
+
   function handleOpenOptions(event: MouseEvent<HTMLDivElement>) {
     setOptions(event.currentTarget);
   }
@@ -59,7 +64,7 @@ export function HeaderHome({
         <CSVLink
           data={transactions}
           headers={headers}
-          target="My_Wallet"
+          target="my_wallet"
         >
           <button>
             <FaFileExport size={19} />
@@ -83,14 +88,15 @@ export function HeaderHome({
 
         <div>
           <Perfil>
+            <Tip message="Trocar Tema">
+              <button onClick={handleDarkMode} >
+                {iconType === "dark"
+                  ? <IoSunny size={21} color="#fff" />
+                  : <RiMoonClearFill size={18} color="#fff" />
+                }
 
-            <button onClick={handleDarkMode}>
-              {iconType === "dark"
-                ? <IoSunny size={21} color="#fff" />
-                : <RiMoonClearFill size={18} color="#fff" />
-              }
-
-            </button>
+              </button>
+            </Tip>
             <div
               className="infoPerfil"
               aria-controls="simple-menu"
@@ -101,14 +107,15 @@ export function HeaderHome({
               <span>{session.user.email}</span>
             </div>
             <div className="divider" />
-
-            <AvatarStyled onClick={handleOpenOptions}
-            >
-              <img
-                alt={session.user.name}
-                src={session.user.image}
-              />
-            </AvatarStyled>
+            <Tip message="Opções">
+              <AvatarStyled onClick={handleOpenOptions}
+              >
+                <img
+                  alt={session.user.name}
+                  src={session.user.image}
+                />
+              </AvatarStyled>
+            </Tip>
           </Perfil>
 
           <button type="button" onClick={onOpenNewTransactionsModal}>

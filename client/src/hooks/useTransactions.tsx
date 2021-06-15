@@ -8,6 +8,7 @@ interface Transaction {
   amount: number;
   type: string;
   category: string;
+  effectuation_date: Date;
   email: string;
   created_at: string;
 }

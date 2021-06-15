@@ -4,11 +4,18 @@ import { useTransactions } from '../../hooks/useTransactions';
 import { Container, RadioBox, TransactionTypeContainer } from './styles';
 import Modal from 'react-modal';
 
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import ptBR from 'date-fns/locale/pt-BR';
+registerLocale('ptBR', ptBR)
+
+
 interface Transaction {
   _id: string;
   title: string;
   amount: number;
   category: string;
+  effectuation_date: Date;
   type: string;
   created_at: string;
 }
@@ -25,18 +32,24 @@ export function EditTransactionModal({ isOpen, onRequestClose, transaction }: Ed
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState(0)
   const [category, setCategory] = useState('')
+  const [effectuationDate, setEffectuationDate] = useState<Date>();
   const [type, setType] = useState('')
+
 
   const [session] = useSession();
 
   async function handleOpenNewTransactionModal(event: FormEvent) {
     event.preventDefault();
+
+    const effectuation_date = effectuationDate ? effectuationDate : new Date();
+
     const data = {
       _id: transaction._id,
       title,
       amount,
       category,
       type,
+      effectuation_date,
       email: session.user.email,
       created_at: Date()
     }
@@ -50,6 +63,7 @@ export function EditTransactionModal({ isOpen, onRequestClose, transaction }: Ed
     setAmount(transaction.amount)
     setCategory(transaction.category)
     setType(transaction.type)
+    setEffectuationDate(new Date(transaction.effectuation_date))
   }, [transaction])
 
   return (
@@ -111,6 +125,16 @@ export function EditTransactionModal({ isOpen, onRequestClose, transaction }: Ed
           placeholder="Categoria"
           value={category}
           onChange={event => setCategory(event.target.value)}
+        />
+
+        <DatePicker
+          placeholderText="Data de realização"
+          selected={effectuationDate}
+          onChange={(date) => setEffectuationDate(date)}
+          dateFormat="dd 'de' MMMM, yyyy"
+          locale="ptBR"
+          openToDate={new Date()}
+          popperPlacement="top"
         />
 
         <button

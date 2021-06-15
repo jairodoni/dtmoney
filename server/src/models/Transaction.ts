@@ -25,6 +25,9 @@ class Transaction {
   @Column()
   category: number;
 
+  @Column()
+  effectuation_date: Date;
+
   @ManyToOne(() => User, (user) => user.transaction)
   user: User;
 
