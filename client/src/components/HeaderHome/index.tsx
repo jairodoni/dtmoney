@@ -1,58 +1,51 @@
 
+import { signOut, useSession } from "next-auth/client";
 import { MouseEvent, useContext, useEffect, useState } from 'react';
-import { signOut } from "next-auth/client";
-import { Tooltip, Zoom } from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { CSVLink } from "react-csv";
 import { FaFileExport } from 'react-icons/fa';
 import { GoSignOut } from 'react-icons/go';
 import { IoSunny } from 'react-icons/io5';
 import { RiMoonClearFill } from 'react-icons/ri';
+import { ThemeContext } from 'styled-components';
 import { useTransactions } from '../../hooks/useTransactions';
 import { PopoverComponent } from '../PopoverComponent';
-import { ThemeContext } from 'styled-components';
-import { Tip } from './Tip'
 import { AvatarStyled, Container, Content, Perfil } from './styles';
+import { Tip } from './Tip';
 
-interface User {
-  user: {
-    email: string;
-    image: string;
-    name: string;
-  }
-}
 
 interface HeaderProps {
   onOpenNewTransactionsModal: () => void;
   handleDarkMode: () => void;
-  session: User;
 }
 
 export function HeaderHome({
   onOpenNewTransactionsModal,
-  handleDarkMode,
-  session
+  handleDarkMode
 }: HeaderProps) {
+  const [session] = useSession()
+
+  const name = session.user.name.split(' ,');
+
   const { transactions } = useTransactions();
   const { title } = useContext(ThemeContext);
 
+  const arrayTransactions = transactions.map(item => ({
+    Titulo: item.title,
+    Valor: new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.amount),
+    Tipo: item.type === "deposit" ? "Entrada" : "Saida",
+    Categoria: item.category,
+    Data: new Intl.DateTimeFormat('pt-BR').format(new Date(item.effectuation_date))
+  }))
+
   const [options, setOptions] = useState<null | HTMLElement>(null);
   const [iconType, setIconType] = useState("");
-
-  const headers = [
-    { label: "Titulo", key: "title" },
-    { label: "Valor", key: "amount" },
-    { label: "Categoria", key: "category" }
-  ];
-
-
 
   function handleOpenOptions(event: MouseEvent<HTMLDivElement>) {
     setOptions(event.currentTarget);
   }
 
   useEffect(() => {
-    setIconType(title)
+    setIconType(title);
   }, [title])
 
   const OptionsComponent = () => {
@@ -62,9 +55,8 @@ export function HeaderHome({
         setOptions={setOptions}
       >
         <CSVLink
-          data={transactions}
-          headers={headers}
-          target="my_wallet"
+          data={arrayTransactions}
+          filename={`my-wallet-${name}.csv`}
         >
           <button>
             <FaFileExport size={19} />

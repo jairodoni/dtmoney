@@ -23,7 +23,7 @@ interface HomeProps {
   session: User;
 }
 
-export default function Home({ handleDarkMode, session }: HomeProps) {
+export default function Home({ handleDarkMode }: HomeProps) {
 
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
 
@@ -47,7 +47,6 @@ export default function Home({ handleDarkMode, session }: HomeProps) {
           <HeaderHome
             onOpenNewTransactionsModal={handleOpenNewTransactionModal}
             handleDarkMode={handleDarkMode}
-            session={session}
           />
           <Dashboard />
           <NewTransactionModal

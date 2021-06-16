@@ -1,7 +1,6 @@
-import { Popover, } from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { Popover } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { PopoverContainer } from './styles';
-
 
 interface PopoverComponentProps {
   options: null | HTMLElement;

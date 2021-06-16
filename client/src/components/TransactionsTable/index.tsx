@@ -1,15 +1,12 @@
-import { useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/client";
+import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
-import { Fade } from "@material-ui/core";
+import { useTransactions } from "../../hooks/useTransactions";
+import { api } from "../../services/api";
 import { EditTransactionModal } from "../EditTransactionModal";
 import { InputButton } from "../InputSearch";
 import { SkeletonForTable } from "./SkeletonForTable";
-
 import { Container } from "./styles";
-
-import { useTransactions } from "../../hooks/useTransactions";
-import { api } from "../../services/api";
 
 interface Transaction {
   _id: string;

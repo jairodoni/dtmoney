@@ -4,12 +4,10 @@ import { useTransactions } from '../../hooks/useTransactions';
 import { Container, RadioBox, TransactionTypeContainer } from './styles';
 import Modal from 'react-modal';
 
-
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ptBR from 'date-fns/locale/pt-BR';
 registerLocale('ptBR', ptBR)
-
 
 interface NewTransactionModalProps {
   isOpen: boolean;
