@@ -1,17 +1,13 @@
-
-import { signOut, useSession } from "next-auth/client";
 import { MouseEvent, useContext, useEffect, useState } from 'react';
-import { CSVLink } from "react-csv";
-import { FaFileExport } from 'react-icons/fa';
-import { GoSignOut } from 'react-icons/go';
+import { useSession } from "next-auth/client";
+import Link from "next/link";
+
 import { IoSunny } from 'react-icons/io5';
 import { RiMoonClearFill } from 'react-icons/ri';
-import { ThemeContext } from 'styled-components';
-import { useTransactions } from '../../hooks/useTransactions';
-import { PopoverComponent } from '../PopoverComponent';
 import { AvatarStyled, Container, Content, Perfil } from './styles';
+import { ThemeContext } from 'styled-components';
 import { Tip } from './Tip';
-
+import { PopoverOptions } from './PopoverOptions';
 
 interface HeaderProps {
   onOpenNewTransactionsModal: () => void;
@@ -22,23 +18,11 @@ export function HeaderHome({
   onOpenNewTransactionsModal,
   handleDarkMode
 }: HeaderProps) {
-  const [session] = useSession()
-
-  const name = session.user.name.split(' ,');
-
-  const { transactions } = useTransactions();
   const { title } = useContext(ThemeContext);
-
-  const arrayTransactions = transactions.map(item => ({
-    Titulo: item.title,
-    Valor: new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.amount),
-    Tipo: item.type === "deposit" ? "Entrada" : "Saida",
-    Categoria: item.category,
-    Data: new Intl.DateTimeFormat('pt-BR').format(new Date(item.effectuation_date))
-  }))
-
   const [options, setOptions] = useState<null | HTMLElement>(null);
-  const [iconType, setIconType] = useState("");
+  const [iconType, setIconType] = useState("light");
+
+  const [session] = useSession()
 
   function handleOpenOptions(event: MouseEvent<HTMLDivElement>) {
     setOptions(event.currentTarget);
@@ -48,35 +32,17 @@ export function HeaderHome({
     setIconType(title);
   }, [title])
 
-  const OptionsComponent = () => {
-    return (
-      <PopoverComponent
-        options={options}
-        setOptions={setOptions}
-      >
-        <CSVLink
-          data={arrayTransactions}
-          filename={`my-wallet-${name}.csv`}
-        >
-          <button>
-            <FaFileExport size={19} />
-            Exportar CSV
-          </button>
-        </CSVLink>
-        <button onClick={(): Promise<void> => signOut()}>
-          <GoSignOut size={21} />
-          Logout
-        </button>
-      </PopoverComponent >
-    )
-  }
 
   return (
     <Container>
       <Content>
-        <OptionsComponent />
+        <PopoverOptions options={options} setOptions={setOptions} />
 
-        <img src="/images/logo02.svg" alt="dt money" />
+        <Link href="http://localhost:3000">
+          <a >
+            <img src="/images/logo02.svg" alt="my wallet" />
+          </a>
+        </Link>
 
         <div>
           <Perfil>

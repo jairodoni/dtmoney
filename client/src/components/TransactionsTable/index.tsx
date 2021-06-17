@@ -20,34 +20,48 @@ interface Transaction {
 }
 
 export function TransactionsTable() {
+  const [session] = useSession();
+
   const {
     setTransactions,
     transactionsFiltered,
-    deleteTransaction,
-    inputSearch,
+    searchTransactions,
+    deleteTransaction
   } = useTransactions();
+
   const [transaction, setTransaction] = useState({} as Transaction);
   const [isEditTransactionModalOpen, setIsEditTransactionModalOpen] = useState(false);
   const [checked, setChecked] = useState(false);
+
+  async function GetTransactions() {
+    const getTransactions = await api.get(`/transaction/${session.user.email}`)
+    setTransactions(getTransactions.data);
+  }
 
   const handleChangeFade = () => {
     setChecked((prev) => !prev);
   };
 
   function handleOpenNewTransactionModal(transactionSelected: Transaction) {
-    setTransaction(transactionSelected)
-    setIsEditTransactionModalOpen(true);
+    if (session) {
+      setTransaction(transactionSelected)
+      setIsEditTransactionModalOpen(true);
+    } else {
+      alert("Você não esta logado! Tente fazer seu login antes.");
+    }
   }
 
   function handleCloseNewTransactionModal() {
     setIsEditTransactionModalOpen(false);
   }
 
-  async function GetTransactions() {
-    const getTransactions = await api.get(`/transaction/${session.user.email}`)
-    setTransactions(getTransactions.data);
+  function handleDelete(transactionId: string) {
+    if (session) {
+      deleteTransaction(transactionId);
+    } else {
+      alert("Você não esta logado! Tente fazer seu login antes.");
+    }
   }
-  const [session] = useSession();
 
   useEffect(() => {
     if (session) {
@@ -63,26 +77,6 @@ export function TransactionsTable() {
       setChecked(true)
     }
   }, [transactionsFiltered]);
-
-  const searchTransaction = transactionsFiltered.filter(transaction => {
-    if (inputSearch === "") {
-      return transaction;
-    } else if (transaction.title.toLowerCase().includes(inputSearch.toLowerCase())) {
-      return transaction;
-    } else if (transaction.category.toLowerCase().includes(inputSearch.toLowerCase())) {
-      return transaction;
-    } else if (new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
-      .format(transaction.amount).toLowerCase()
-      .includes(inputSearch.toLowerCase())
-    ) {
-      return transaction;
-    } else if (new Intl.DateTimeFormat('pt-BR')
-      .format(new Date(transaction.effectuation_date)).toLowerCase()
-      .includes(inputSearch.toLowerCase())
-    ) {
-      return transaction;
-    }
-  });
 
   return (
     <Container>
@@ -102,7 +96,7 @@ export function TransactionsTable() {
           session && transactionsFiltered ?
             (
               <tbody className="body-table">
-                {searchTransaction.map(transaction => (
+                {searchTransactions.map(transaction => (
                   <tr key={transaction._id}>
                     <td>{transaction.title}</td>
                     <td className={transaction.type}>
@@ -117,11 +111,11 @@ export function TransactionsTable() {
                         new Date(transaction.effectuation_date)
                       )}
                     </td>
-                    <td>
+                    <td className="button-table">
                       <FiEdit size={19} className="edit" onClick={() => handleOpenNewTransactionModal(transaction)} />
                     </td>
-                    <td>
-                      <FiTrash2 size={19} className="delete" onClick={() => deleteTransaction(transaction._id)} />
+                    <td className="button-table">
+                      <FiTrash2 size={19} className="delete" onClick={() => handleDelete(transaction._id)} />
                     </td>
                   </tr>
                 ))}

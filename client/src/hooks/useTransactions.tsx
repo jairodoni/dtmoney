@@ -24,6 +24,7 @@ interface TransactionsContextData {
   setTransactions: (transactions: Transaction[]) => void;
   transactionsFiltered: Transaction[];
   setTransactionsFiltered: (transactionsFiltered: Transaction[]) => void;
+  searchTransactions: Transaction[];
   inputSearch: string;
   setInputSearch: (inputSearch: string) => void;
   typeTransaction: string;
@@ -43,6 +44,27 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactionsFiltered, setTransactionsFiltered] = useState([]);
   const [inputSearch, setInputSearch] = useState("");
   const [typeTransaction, setTypeTransaction] = useState("Todos")
+
+  const searchTransactions = transactionsFiltered.filter(transaction => {
+    if (inputSearch === "") {
+      return transaction;
+    } else if (transaction.title.toLowerCase().includes(inputSearch.toLowerCase())) {
+      return transaction;
+    } else if (transaction.category.toLowerCase().includes(inputSearch.toLowerCase())) {
+      return transaction;
+    } else if (new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+      .format(transaction.amount).toLowerCase()
+      .includes(inputSearch.toLowerCase())
+    ) {
+      return transaction;
+    } else if (new Intl.DateTimeFormat('pt-BR')
+      .format(new Date(transaction.effectuation_date)).toLowerCase()
+      .includes(inputSearch.toLowerCase())
+    ) {
+      return transaction;
+    }
+  });
+
 
   async function createTransaction(transactionInput: TransactionInput) {
     try {
@@ -115,7 +137,8 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         inputSearch,
         setInputSearch,
         typeTransaction,
-        setTypeTransaction
+        setTypeTransaction,
+        searchTransactions
       }}
     >
       {children}

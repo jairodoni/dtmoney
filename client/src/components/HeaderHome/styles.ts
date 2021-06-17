@@ -9,7 +9,7 @@ export const Content = styled.div`
   max-width: 1120px;
   margin: 0 auto;
 
-  padding: 1.5rem 1rem 10rem;
+  padding: 1.2rem 1rem 10rem;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;

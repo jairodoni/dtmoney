@@ -1,17 +1,19 @@
 import { GetServerSideProps } from 'next';
+import Link from "next/link";
+import Head from 'next/head';
 import { getSession } from 'next-auth/client';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-
+import { GoMarkGithub } from 'react-icons/go';
 import { HeaderLogin } from "../components/HeaderLogin";
 import { Container } from '../styles/login';
-
 
 export default function Login() {
   return (
     <>
-      <head>
+      <Head>
         <title>Login | My Wallet</title>
-      </head>
+      </Head>
+
       <MuiThemeProvider theme={themeUI}>
         <div>
 
@@ -19,16 +21,23 @@ export default function Login() {
           <Container >
             <div>
               <div>
-                <h2>O que é o dt money?</h2>
+                <h2>O que é o My Wallet?</h2>
                 <p>
-                  Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro.
-                  De carne lumbering animata corpora quaeritis. Summus brains sit​​, morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris.
-                  Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat cerebella viventium.
-                  Qui animated corpse, cricket bat max brucks terribilem incessu zomby.
-                  The voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus.
-                  Zonbi tattered for solum oculi eorum defunctis go lum cerebro. Nescio brains an Undead zombies.
-                  Sicut malus putrid voodoo horror. Nigh tofth eliv ingdead.
+                  My Wallet é uma plataforma de controle financeiro, onde você pode registrar, calcular e monitorar tanto
+                  o dinheiro que entra como o que sai, facilitando para você fazer seu orçamento, se você trabalha como
+                  freelancer, comerciante, artista ou autônomo você poderá calcular seu ganhos e investimentos através
+                  desta plataforma, caso você só queira calcular seu orçamento no final do mês vendo seus ganhos e gastos
+                  também poderá usufruir das utilidades da plataforma, você pode exportar em CSV(Excel) caso queira.
                 </p>
+                <br />
+                <Link href="https://github.com/jairodoni">
+                  <a>
+                    <span>
+                      <GoMarkGithub size={21} />
+                      Autor: https://github.com/jairodoni
+                    </span>
+                  </a>
+                </Link>
               </div>
             </div>
             <section>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SingnInButton } from '../SingnInButton';
 import { Content, Header } from './styles';
 
@@ -6,7 +7,11 @@ export function HeaderLogin() {
     <div>
       <Header>
         <Content>
-          <img src="/images/logo02.svg" alt="dt money" />
+          <Link href="http://localhost:3000">
+            <a >
+              <img src="/images/logo02.svg" alt="my wallet" />
+            </a>
+          </Link>
           <SingnInButton />
         </Content>
       </Header>

@@ -19,12 +19,13 @@ export const Container = styled.div<ContainerProps>`
     }
 
     .body-table td {
-      padding: 0.5rem 2rem;
+      padding: 0.65rem 2rem;
+      padding-bottom: 3px;
       border: 0;
 
       svg {
-        width: 2rem;
-        height: 2rem;
+        width: 2.1rem;
+        height: 2.1rem;
         padding: 4px;
         border-radius: 4px;
       }

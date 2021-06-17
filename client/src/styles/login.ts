@@ -22,11 +22,69 @@ export const Container = styled.header`
     p {
       font-size: 1.1rem;
     }
+
+    a {
+      color: ${props => props.theme.colors.white};
+      display: inline-block;
+      span {
+        display: flex;
+
+        svg {
+          margin-right: 10px;
+        }
+
+        transition: filter 0.2s;
+
+        &:hover {
+          filter: brightness(0.7);
+        }
+      }
+    }
+
     & > div {
       max-width: 800px;
       max-height: 300px;
+      width: 100%;
+      height: 100%;
+
       border-radius: 1rem;
       background: ${props => props.theme.colors.blueLight};
+    }
+    @media (max-width: 780px) {
+      & > div {
+        max-height: 500px;
+      }
+      a,
+      p,
+      svg {
+        font-size: 0.9rem;
+      }
+    }
+    @media (max-width: 600px) {
+      div:first-child {
+        padding: 1rem;
+        & > div {
+          max-height: 500px;
+        }
+        a,
+        p,
+        svg {
+          font-size: 0.8rem;
+        }
+      }
+    }
+    @media (max-width: 465px) {
+      div:first-child {
+        padding: 1rem;
+        & > div {
+          max-height: 500px;
+        }
+        a,
+        p,
+        svg {
+          font-size: 0.66rem;
+        }
+      }
     }
   }
 

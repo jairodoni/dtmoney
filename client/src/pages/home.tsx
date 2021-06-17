@@ -1,11 +1,13 @@
 import { GetServerSideProps } from "next";
 import { getSession } from 'next-auth/client';
+
+import Head from 'next/head';
 import { useState } from 'react';
-// import Modal from 'react-modal';
 import { Dashboard } from "../components/Dashboard";
 import { HeaderHome } from "../components/HeaderHome";
 import { NewTransactionModal } from "../components/NewTransactionModal";
 import { TransactionsProvider } from '../hooks/useTransactions';
+// import Modal from 'react-modal';
 
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 // Modal.setAppElement('#root')
@@ -36,26 +38,28 @@ export default function Home({ handleDarkMode }: HomeProps) {
   }
 
   return (
+    <>
+      <Head>
+        <title>Home | My Wallet</title>
+      </Head>
 
-    <TransactionsProvider>
-      <MuiThemeProvider theme={themeUI}>
-        <head>
-          <title>Home | My Wallet</title>
-        </head>
-        <div>
+      <TransactionsProvider>
+        <MuiThemeProvider theme={themeUI}>
+          <div>
 
-          <HeaderHome
-            onOpenNewTransactionsModal={handleOpenNewTransactionModal}
-            handleDarkMode={handleDarkMode}
-          />
-          <Dashboard />
-          <NewTransactionModal
-            isOpen={isNewTransactionModalOpen}
-            onRequestClose={handleCloseNewTransactionModal}
-          />
-        </div>
-      </MuiThemeProvider>
-    </TransactionsProvider>
+            <HeaderHome
+              onOpenNewTransactionsModal={handleOpenNewTransactionModal}
+              handleDarkMode={handleDarkMode}
+            />
+            <Dashboard />
+            <NewTransactionModal
+              isOpen={isNewTransactionModalOpen}
+              onRequestClose={handleCloseNewTransactionModal}
+            />
+          </div>
+        </MuiThemeProvider>
+      </TransactionsProvider>
+    </>
   )
 }
 

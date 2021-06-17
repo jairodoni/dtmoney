@@ -16,8 +16,8 @@ class TransactionsController {
         },
       });
       const sortedTransactions = all.sort((a, b) => {
-        const date01: any = new Date(b.created_at);
-        const date02: any = new Date(a.created_at);
+        const date01: any = new Date(b.effectuation_date);
+        const date02: any = new Date(a.effectuation_date);
 
         const filtred = date01 - date02;
 
