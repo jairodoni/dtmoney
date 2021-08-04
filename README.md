@@ -62,7 +62,7 @@
 
 ## **💻 Projeto**
 
-dtmoney é uma aplicação para ajudar quanquer pessoa com um pouco de conhecimento financeiro a registrar o dinheiro que entra e o que sai, calculando seus investimentos e lucros.
+dtmoney é uma aplicação para ajudar qualquer pessoa com um pouco de conhecimento financeiro a registrar o dinheiro que entra e o que sai, calculando seus investimentos e lucros.
 
 ---
 
