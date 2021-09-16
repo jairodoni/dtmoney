@@ -1,6 +1,6 @@
 import { MouseEvent, useContext, useEffect, useState } from 'react';
-import { useSession } from "next-auth/client";
-import Link from "next/link";
+import { useSession } from 'next-auth/client';
+import Link from 'next/link';
 
 import { IoSunny } from 'react-icons/io5';
 import { RiMoonClearFill } from 'react-icons/ri';
@@ -16,13 +16,13 @@ interface HeaderProps {
 
 export function HeaderHome({
   onOpenNewTransactionsModal,
-  handleDarkMode
+  handleDarkMode,
 }: HeaderProps) {
   const { title } = useContext(ThemeContext);
   const [options, setOptions] = useState<null | HTMLElement>(null);
-  const [iconType, setIconType] = useState("light");
+  const [iconType, setIconType] = useState('light');
 
-  const [session] = useSession()
+  const [session] = useSession();
 
   function handleOpenOptions(event: MouseEvent<HTMLDivElement>) {
     setOptions(event.currentTarget);
@@ -30,8 +30,7 @@ export function HeaderHome({
 
   useEffect(() => {
     setIconType(title);
-  }, [title])
-
+  }, [title]);
 
   return (
     <Container>
@@ -39,7 +38,7 @@ export function HeaderHome({
         <PopoverOptions options={options} setOptions={setOptions} />
 
         <Link href="http://localhost:3000">
-          <a >
+          <a>
             <img src="/images/logo02.svg" alt="my wallet" />
           </a>
         </Link>
@@ -47,12 +46,12 @@ export function HeaderHome({
         <div>
           <Perfil>
             <Tip message="Trocar Tema">
-              <button onClick={handleDarkMode} >
-                {iconType === "dark"
-                  ? <IoSunny size={21} color="#fff" />
-                  : <RiMoonClearFill size={18} color="#fff" />
-                }
-
+              <button onClick={handleDarkMode}>
+                {iconType === 'dark' ? (
+                  <IoSunny size={21} color="#fff" />
+                ) : (
+                  <RiMoonClearFill size={18} color="#fff" />
+                )}
               </button>
             </Tip>
             <div
@@ -66,12 +65,8 @@ export function HeaderHome({
             </div>
             <div className="divider" />
             <Tip message="Opções">
-              <AvatarStyled onClick={handleOpenOptions}
-              >
-                <img
-                  alt={session.user.name}
-                  src={session.user.image}
-                />
+              <AvatarStyled onClick={handleOpenOptions}>
+                <img alt={session.user.name} src={session.user.image} />
               </AvatarStyled>
             </Tip>
           </Perfil>
@@ -81,7 +76,6 @@ export function HeaderHome({
           </button>
         </div>
       </Content>
-    </Container >
-  )
+    </Container>
+  );
 }
-

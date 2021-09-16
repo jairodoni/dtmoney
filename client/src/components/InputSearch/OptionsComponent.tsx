@@ -11,14 +11,13 @@ interface PopoverComponentProps {
 export function OptionsComponent({
   options,
   setOptions,
-  setTypeTransaction
+  setTypeTransaction,
 }: PopoverComponentProps) {
-
   const classes = useStyles();
 
   function handleCloseOptions(type: string) {
     if (type !== null) {
-      setTypeTransaction(type)
+      setTypeTransaction(type);
     }
     setOptions(null);
   }
@@ -45,18 +44,16 @@ export function OptionsComponent({
       }}
     >
       <PopoverContainer className="popover">
-        <button onClick={() => handleCloseOptions("Todos")}>
-          Todos
-        </button>
+        <button onClick={() => handleCloseOptions('Todos')}>Todos</button>
         <button
-          style={{ color: "#33CC95" }}
-          onClick={() => handleCloseOptions("Entradas")}
+          style={{ color: '#33CC95' }}
+          onClick={() => handleCloseOptions('Entradas')}
         >
           Entradas
         </button>
         <button
-          style={{ color: "#E52E40" }}
-          onClick={() => handleCloseOptions("Saidas")}
+          style={{ color: '#E52E40' }}
+          onClick={() => handleCloseOptions('Saidas')}
         >
           Saidas
         </button>
@@ -68,7 +65,7 @@ export function OptionsComponent({
 const useStyles = makeStyles(() =>
   createStyles({
     paper: {
-      background: 'none'
-    }
+      background: 'none',
+    },
   })
 );

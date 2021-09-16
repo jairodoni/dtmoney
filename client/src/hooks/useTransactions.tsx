@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useRef, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
 
@@ -16,7 +16,7 @@ interface Transaction {
 type TransactionInput = Omit<Transaction, '_id' | 'created_at'>;
 
 interface TransactionsProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 interface TransactionsContextData {
@@ -35,6 +35,7 @@ interface TransactionsContextData {
 }
 
 // const TransactionsContext = createContext<TransactionsContextData[]>([]);
+
 const TransactionsContext = createContext<TransactionsContextData>(
   {} as TransactionsContextData
 );
@@ -42,29 +43,36 @@ const TransactionsContext = createContext<TransactionsContextData>(
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [transactionsFiltered, setTransactionsFiltered] = useState([]);
-  const [inputSearch, setInputSearch] = useState("");
-  const [typeTransaction, setTypeTransaction] = useState("Todos")
+  const [inputSearch, setInputSearch] = useState('');
+  const [typeTransaction, setTypeTransaction] = useState('Todos');
 
   const searchTransactions = transactionsFiltered.filter(transaction => {
-    if (inputSearch === "") {
+    if (inputSearch === '') {
       return transaction;
-    } else if (transaction.title.toLowerCase().includes(inputSearch.toLowerCase())) {
-      return transaction;
-    } else if (transaction.category.toLowerCase().includes(inputSearch.toLowerCase())) {
-      return transaction;
-    } else if (new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
-      .format(transaction.amount).toLowerCase()
-      .includes(inputSearch.toLowerCase())
+    } else if (
+      transaction.title.toLowerCase().includes(inputSearch.toLowerCase())
     ) {
       return transaction;
-    } else if (new Intl.DateTimeFormat('pt-BR')
-      .format(new Date(transaction.effectuation_date)).toLowerCase()
-      .includes(inputSearch.toLowerCase())
+    } else if (
+      transaction.category.toLowerCase().includes(inputSearch.toLowerCase())
+    ) {
+      return transaction;
+    } else if (
+      new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+        .format(transaction.amount)
+        .toLowerCase()
+        .includes(inputSearch.toLowerCase())
+    ) {
+      return transaction;
+    } else if (
+      new Intl.DateTimeFormat('pt-BR')
+        .format(new Date(transaction.effectuation_date))
+        .toLowerCase()
+        .includes(inputSearch.toLowerCase())
     ) {
       return transaction;
     }
   });
-
 
   async function createTransaction(transactionInput: TransactionInput) {
     try {
@@ -72,25 +80,31 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         ...transactionInput,
         created_at: new Date(),
       });
-      const getTransactions = await api.get(`/transaction/${transactionInput.email}`)
 
+      const getTransactions = await api.get(
+        `/transaction/${transactionInput.email}`
+      );
 
-      setTransactions(getTransactions.data)
+      setTransactions(getTransactions.data);
       toast.success('Transação criada com sucesso!');
     } catch (error) {
       toast.error('Não foi possivel criar a Transação.');
     }
   }
 
-
   async function editTransaction(transaction: Transaction) {
     try {
-      const response = await api.put(`/transaction/${transaction._id}`, transaction);
+      const response = await api.put(
+        `/transaction/${transaction._id}`,
+        transaction
+      );
 
       if (response.status === 206) {
-        const getTransactions = await api.get(`/transaction/${transaction.email}`)
+        const getTransactions = await api.get(
+          `/transaction/${transaction.email}`
+        );
 
-        setTransactions(getTransactions.data)
+        setTransactions(getTransactions.data);
         toast.success('Transação editada com sucesso!');
       } else {
         toast.error('Não foi possivel editar.');
@@ -101,15 +115,19 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   }
 
   async function deleteTransaction(transactionId: string) {
-    const filterTransaction = transactions.filter(item => item._id === transactionId)
+    const filterTransaction = transactions.filter(
+      item => item._id === transactionId
+    );
     try {
       if (filterTransaction) {
-        const filterTransaction = transactions.filter(item => item._id !== transactionId)
+        const filterTransaction = transactions.filter(
+          item => item._id !== transactionId
+        );
 
-        const response = await api.delete(`/transaction/${transactionId}`,);
+        const response = await api.delete(`/transaction/${transactionId}`);
 
         if (response.status === 200) {
-          setTransactions(filterTransaction)
+          setTransactions(filterTransaction);
         } else {
           toast.error('Não foi possivel excluir.');
         }
@@ -120,9 +138,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     } catch (error) {
       toast.error('Não foi possivel excluir.');
     }
-
   }
-
 
   return (
     <TransactionsContext.Provider
@@ -138,12 +154,12 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         setInputSearch,
         typeTransaction,
         setTypeTransaction,
-        searchTransactions
+        searchTransactions,
       }}
     >
       {children}
     </TransactionsContext.Provider>
-  )
+  );
 }
 
 export function useTransactions() {

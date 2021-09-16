@@ -9,13 +9,11 @@ import GlobalStyles from '../styles/global';
 import light from '../styles/light';
 import dark from '../styles/dark';
 
-
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = usePersistedState<DefaultTheme>('theme', light);
 
-
   function handleDarkMode() {
-    setTheme(theme.title === 'dark' ? light : dark)
+    setTheme(theme.title === 'dark' ? light : dark);
   }
 
   return (
@@ -37,6 +35,3 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     </NextAuthProvider>
   );
 }
-
-
-

@@ -4,23 +4,26 @@ import { useTransactions } from '../../hooks/useTransactions';
 import { Container, RadioBox, TransactionTypeContainer } from './styles';
 import Modal from 'react-modal';
 
-import DatePicker, { registerLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import ptBR from 'date-fns/locale/pt-BR';
-registerLocale('ptBR', ptBR)
+registerLocale('ptBR', ptBR);
 
 interface NewTransactionModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
 }
 
-export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+export function NewTransactionModal({
+  isOpen,
+  onRequestClose,
+}: NewTransactionModalProps) {
   const { createTransaction } = useTransactions();
 
-  const [title, setTitle] = useState('')
-  const [amount, setAmount] = useState(null)
-  const [category, setCategory] = useState('')
-  const [type, setType] = useState('deposit')
+  const [title, setTitle] = useState('');
+  const [amount, setAmount] = useState(null);
+  const [category, setCategory] = useState('');
+  const [type, setType] = useState('deposit');
   const [effectuationDate, setEffectuationDate] = useState();
 
   const [session] = useSession();
@@ -29,7 +32,9 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
     event.preventDefault();
 
     if (session) {
-      const effectuation_date = effectuationDate ? effectuationDate : new Date();
+      const effectuation_date = effectuationDate
+        ? effectuationDate
+        : new Date();
       await createTransaction({
         title,
         amount: amount ? amount : 0,
@@ -41,24 +46,24 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
 
       ClearInput();
       onRequestClose();
-
-
     } else {
-      alert("Você não esta devidamente logado para realizar um novo registro! Faça seu login e tente novamente.")
+      alert(
+        'Você não esta devidamente logado para realizar um novo registro! Faça seu login e tente novamente.'
+      );
     }
   }
 
   function ClearInput() {
-    setTitle('')
-    setAmount(null)
-    setCategory('')
-    setType('')
-    setEffectuationDate(undefined)
+    setTitle('');
+    setAmount(null);
+    setCategory('');
+    setType('');
+    setEffectuationDate(undefined);
   }
 
   useEffect(() => {
-    ClearInput()
-  }, [isOpen])
+    ClearInput();
+  }, [isOpen]);
 
   return (
     <Modal
@@ -94,7 +99,9 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
         <TransactionTypeContainer>
           <RadioBox
             type="button"
-            onClick={() => { setType('deposit') }}
+            onClick={() => {
+              setType('deposit');
+            }}
             isActive={type === 'deposit'}
             activeColor="green"
           >
@@ -104,7 +111,9 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
 
           <RadioBox
             type="button"
-            onClick={() => { setType('withdraw') }}
+            onClick={() => {
+              setType('withdraw');
+            }}
             isActive={type === 'withdraw'}
             activeColor="red"
           >
@@ -112,7 +121,6 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
             <span>Saida</span>
           </RadioBox>
         </TransactionTypeContainer>
-
 
         <input
           placeholder="Categoria"
@@ -123,7 +131,7 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
         <DatePicker
           placeholderText="Data de realização"
           selected={effectuationDate}
-          onChange={(date) => setEffectuationDate(date)}
+          onChange={date => setEffectuationDate(date)}
           dateFormat="dd 'de' MMMM, yyyy"
           locale="ptBR"
           openToDate={new Date()}
@@ -131,14 +139,8 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
           typeof="date"
         />
 
-        <button
-          type="submit"
-        >
-          Cadastrar
-        </button>
+        <button type="submit">Cadastrar</button>
       </Container>
     </Modal>
   );
 }
-
-

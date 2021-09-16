@@ -1,0 +1,12 @@
+
+build 
+coverage
+.next
+package.json
+tsconfig.json
+api.ts
+next-env.d.ts
+styled.d.ts
+theme.ts
+dark.ts
+light.ts

@@ -15,7 +15,7 @@ function usePersistedState<T>(key: string, initialState: T): Response<T> {
   });
 
   useEffect(() => {
-    Cookies.set(`${key}`, JSON.stringify(state), { expires: 60 });
+    Cookies.set(`${key}`, JSON.stringify(state), { expires: 60 }); //expires in 60 days
   }, [key, state]);
 
   return [state, setState];

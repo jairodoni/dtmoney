@@ -1,12 +1,12 @@
-import { useSession } from "next-auth/client";
-import { useEffect, useState } from "react";
+import { useSession } from 'next-auth/client';
+import { useEffect, useState } from 'react';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
-import { useTransactions } from "../../hooks/useTransactions";
-import { api } from "../../services/api";
-import { EditTransactionModal } from "../EditTransactionModal";
-import { InputButton } from "../InputSearch";
-import { SkeletonForTable } from "./SkeletonForTable";
-import { Container } from "./styles";
+import { useTransactions } from '../../hooks/useTransactions';
+import { api } from '../../services/api';
+import { EditTransactionModal } from '../EditTransactionModal';
+import { InputButton } from '../InputSearch';
+import { SkeletonForTable } from './SkeletonForTable';
+import { Container } from './styles';
 
 interface Transaction {
   _id: string;
@@ -26,28 +26,29 @@ export function TransactionsTable() {
     setTransactions,
     transactionsFiltered,
     searchTransactions,
-    deleteTransaction
+    deleteTransaction,
   } = useTransactions();
 
   const [transaction, setTransaction] = useState({} as Transaction);
-  const [isEditTransactionModalOpen, setIsEditTransactionModalOpen] = useState(false);
+  const [isEditTransactionModalOpen, setIsEditTransactionModalOpen] =
+    useState(false);
   const [checked, setChecked] = useState(false);
 
   async function GetTransactions() {
-    const getTransactions = await api.get(`/transaction/${session.user.email}`)
+    const getTransactions = await api.get(`/transaction/${session.user.email}`);
     setTransactions(getTransactions.data);
   }
 
   const handleChangeFade = () => {
-    setChecked((prev) => !prev);
+    setChecked(prev => !prev);
   };
 
   function handleOpenNewTransactionModal(transactionSelected: Transaction) {
     if (session) {
-      setTransaction(transactionSelected)
+      setTransaction(transactionSelected);
       setIsEditTransactionModalOpen(true);
     } else {
-      alert("Você não esta logado! Tente fazer seu login antes.");
+      alert('Você não esta logado! Tente fazer seu login antes.');
     }
   }
 
@@ -59,7 +60,7 @@ export function TransactionsTable() {
     if (session) {
       deleteTransaction(transactionId);
     } else {
-      alert("Você não esta logado! Tente fazer seu login antes.");
+      alert('Você não esta logado! Tente fazer seu login antes.');
     }
   }
 
@@ -67,14 +68,14 @@ export function TransactionsTable() {
     if (session) {
       GetTransactions();
     } else {
-      alert("Você não esta logado! Tente fazer seu login antes.")
+      alert('Você não esta logado! Tente fazer seu login antes.');
     }
-  }, [session])
+  }, [session]);
 
   useEffect(() => {
     handleChangeFade();
     if (checked) {
-      setChecked(true)
+      setChecked(true);
     }
   }, [transactionsFiltered]);
 
@@ -92,38 +93,43 @@ export function TransactionsTable() {
             <th>Excluir</th>
           </tr>
         </thead>
-        {
-          session && transactionsFiltered ?
-            (
-              <tbody className="body-table">
-                {searchTransactions.map(transaction => (
-                  <tr key={transaction._id}>
-                    <td>{transaction.title}</td>
-                    <td className={transaction.type}>
-                      {new Intl.NumberFormat('pt-BR', {
-                        style: 'currency',
-                        currency: 'BRL'
-                      }).format(transaction.amount)}
-                    </td>
-                    <td>{transaction.category}</td>
-                    <td>
-                      {new Intl.DateTimeFormat('pt-BR').format(
-                        new Date(transaction.effectuation_date)
-                      )}
-                    </td>
-                    <td className="button-table">
-                      <FiEdit size={19} className="edit" onClick={() => handleOpenNewTransactionModal(transaction)} />
-                    </td>
-                    <td className="button-table">
-                      <FiTrash2 size={19} className="delete" onClick={() => handleDelete(transaction._id)} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            ) : (
-              <SkeletonForTable />
-            )
-        }
+        {session && transactionsFiltered ? (
+          <tbody className="body-table">
+            {searchTransactions.map(transaction => (
+              <tr key={transaction._id}>
+                <td>{transaction.title}</td>
+                <td className={transaction.type}>
+                  {new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  }).format(transaction.amount)}
+                </td>
+                <td>{transaction.category}</td>
+                <td>
+                  {new Intl.DateTimeFormat('pt-BR').format(
+                    new Date(transaction.effectuation_date)
+                  )}
+                </td>
+                <td className="button-table">
+                  <FiEdit
+                    size={19}
+                    className="edit"
+                    onClick={() => handleOpenNewTransactionModal(transaction)}
+                  />
+                </td>
+                <td className="button-table">
+                  <FiTrash2
+                    size={19}
+                    className="delete"
+                    onClick={() => handleDelete(transaction._id)}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        ) : (
+          <SkeletonForTable />
+        )}
       </table>
       <EditTransactionModal
         isOpen={isEditTransactionModalOpen}
@@ -131,5 +137,5 @@ export function TransactionsTable() {
         transaction={transaction}
       />
     </Container>
-  )
+  );
 }

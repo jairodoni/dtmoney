@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement } from 'react';
 import { Tooltip, Zoom } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 
@@ -24,13 +24,13 @@ export function Tip({ children, message }: TipProps) {
     >
       {children}
     </Tooltip>
-  )
+  );
 }
 
 const useStyles = makeStyles(() =>
   createStyles({
     tip: {
-      fontSize: 12
+      fontSize: 12,
     },
-  }),
+  })
 );

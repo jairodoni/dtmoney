@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Popover } from '@material-ui/core';
 import { createStyles, makeStyles } from '@material-ui/core';
-import { PopoverStyled } from './styles'
+import { PopoverStyled } from './styles';
 
 interface PopoverComponentProps {
   children: ReactNode;
@@ -9,7 +9,11 @@ interface PopoverComponentProps {
   setOptions: (options: null | HTMLElement) => void;
 }
 
-export function PopoverComponent({ children, options, setOptions }: PopoverComponentProps) {
+export function PopoverComponent({
+  children,
+  options,
+  setOptions,
+}: PopoverComponentProps) {
   const classes = useStyles();
 
   function handleCloseOptions() {
@@ -37,18 +41,14 @@ export function PopoverComponent({ children, options, setOptions }: PopoverCompo
         horizontal: 'right',
       }}
     >
-      <PopoverStyled className='popover'>
-
-        {children}
-
-      </PopoverStyled>
+      <PopoverStyled className="popover">{children}</PopoverStyled>
     </Popover>
-  )
+  );
 }
 const useStyles = makeStyles(() =>
   createStyles({
     popover: {
-      background: "none",
+      background: 'none',
     },
-  }),
+  })
 );

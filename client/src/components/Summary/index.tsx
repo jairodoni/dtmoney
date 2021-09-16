@@ -1,24 +1,27 @@
 import { useTransactions } from '../../hooks/useTransactions';
-import { Container } from "./styled";
+import { Container } from './styled';
 
 export function Summary() {
   const { transactions } = useTransactions();
 
-  const summary = transactions.reduce((acc, transaction) => {
-    if (transaction.type === 'deposit') {
-      acc.deposits += transaction.amount;
-      acc.total += transaction.amount;
-    } else {
-      acc.withdraws += transaction.amount;
-      acc.total -= transaction.amount;
-    }
+  const summary = transactions.reduce(
+    (acc, transaction) => {
+      if (transaction.type === 'deposit') {
+        acc.deposits += transaction.amount;
+        acc.total += transaction.amount;
+      } else {
+        acc.withdraws += transaction.amount;
+        acc.total -= transaction.amount;
+      }
 
-    return acc;
-  }, {
-    deposits: 0,
-    withdraws: 0,
-    total: 0,
-  })
+      return acc;
+    },
+    {
+      deposits: 0,
+      withdraws: 0,
+      total: 0,
+    }
+  );
 
   return (
     <Container>
@@ -30,7 +33,7 @@ export function Summary() {
         <strong>
           {new Intl.NumberFormat('pt-BR', {
             style: 'currency',
-            currency: 'BRL'
+            currency: 'BRL',
           }).format(summary.deposits)}
         </strong>
       </div>
@@ -42,9 +45,9 @@ export function Summary() {
         <strong>
           -
           {new Intl.NumberFormat('pt-BR', {
-          style: 'currency',
-          currency: 'BRL'
-        }).format(summary.withdraws)}
+            style: 'currency',
+            currency: 'BRL',
+          }).format(summary.withdraws)}
         </strong>
       </div>
       <div className="highlight-background">
@@ -55,10 +58,10 @@ export function Summary() {
         <strong>
           {new Intl.NumberFormat('pt-BR', {
             style: 'currency',
-            currency: 'BRL'
+            currency: 'BRL',
           }).format(summary.total)}
         </strong>
       </div>
     </Container>
-  )
+  );
 }

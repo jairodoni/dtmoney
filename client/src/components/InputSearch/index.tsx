@@ -12,42 +12,46 @@ export function InputButton() {
     typeTransaction,
     setInputSearch,
     setTypeTransaction,
-    setTransactionsFiltered
+    setTransactionsFiltered,
   } = useTransactions();
 
   const [options, setOptions] = useState<null | HTMLElement>(null);
   const [typeColor, setTypeColor] = useState('');
 
   async function Filter() {
-    if (typeTransaction === "Todos") {
-      setTransactionsFiltered(transactions)
+    if (typeTransaction === 'Todos') {
+      setTransactionsFiltered(transactions);
       return;
     }
-    if (typeTransaction === "Entradas") {
-      const filterDeposits = transactions.filter(transaction => transaction.type === "deposit")
-      setTransactionsFiltered(filterDeposits)
+    if (typeTransaction === 'Entradas') {
+      const filterDeposits = transactions.filter(
+        transaction => transaction.type === 'deposit'
+      );
+      setTransactionsFiltered(filterDeposits);
       return;
     }
 
-    if (typeTransaction === "Saidas") {
-      const filterWithdraws = transactions.filter(transaction => transaction.type === "withdraw")
-      setTransactionsFiltered(filterWithdraws)
+    if (typeTransaction === 'Saidas') {
+      const filterWithdraws = transactions.filter(
+        transaction => transaction.type === 'withdraw'
+      );
+      setTransactionsFiltered(filterWithdraws);
       return;
     }
   }
 
   useEffect(() => {
-    if (typeTransaction === "Todos") {
-      setTypeColor("");
+    if (typeTransaction === 'Todos') {
+      setTypeColor('');
     }
-    if (typeTransaction === "Entradas") {
-      setTypeColor("#33CC95");
+    if (typeTransaction === 'Entradas') {
+      setTypeColor('#33CC95');
     }
-    if (typeTransaction === "Saidas") {
-      setTypeColor("#E52E40");
+    if (typeTransaction === 'Saidas') {
+      setTypeColor('#E52E40');
     }
 
-    Filter()
+    Filter();
   }, [typeTransaction, transactions]);
 
   function handleOpenOptions(event: MouseEvent<HTMLButtonElement>) {
@@ -79,9 +83,7 @@ export function InputButton() {
       >
         {typeTransaction}
 
-        {
-          !options ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />
-        }
+        {!options ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
       </button>
     </InputSearch>
   );

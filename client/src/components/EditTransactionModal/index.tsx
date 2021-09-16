@@ -4,11 +4,10 @@ import { useTransactions } from '../../hooks/useTransactions';
 import { Container, RadioBox, TransactionTypeContainer } from './styles';
 import Modal from 'react-modal';
 
-import DatePicker, { registerLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import ptBR from 'date-fns/locale/pt-BR';
-registerLocale('ptBR', ptBR)
-
+registerLocale('ptBR', ptBR);
 
 interface Transaction {
   _id: string;
@@ -26,15 +25,18 @@ interface EditTransactionModalProps {
   onRequestClose: () => void;
 }
 
-export function EditTransactionModal({ isOpen, onRequestClose, transaction }: EditTransactionModalProps) {
+export function EditTransactionModal({
+  isOpen,
+  onRequestClose,
+  transaction,
+}: EditTransactionModalProps) {
   const { editTransaction } = useTransactions();
 
-  const [title, setTitle] = useState('')
-  const [amount, setAmount] = useState(0)
-  const [category, setCategory] = useState('')
+  const [title, setTitle] = useState('');
+  const [amount, setAmount] = useState(0);
+  const [category, setCategory] = useState('');
   const [effectuationDate, setEffectuationDate] = useState<Date>();
-  const [type, setType] = useState('')
-
+  const [type, setType] = useState('');
 
   const [session] = useSession();
 
@@ -51,20 +53,20 @@ export function EditTransactionModal({ isOpen, onRequestClose, transaction }: Ed
       type,
       effectuation_date,
       email: session.user.email,
-      created_at: Date()
-    }
+      created_at: Date(),
+    };
 
     await editTransaction(data);
     onRequestClose();
   }
 
   useEffect(() => {
-    setTitle(transaction.title)
-    setAmount(transaction.amount)
-    setCategory(transaction.category)
-    setType(transaction.type)
-    setEffectuationDate(new Date(transaction.effectuation_date))
-  }, [transaction])
+    setTitle(transaction.title);
+    setAmount(transaction.amount);
+    setCategory(transaction.category);
+    setType(transaction.type);
+    setEffectuationDate(new Date(transaction.effectuation_date));
+  }, [transaction]);
 
   return (
     <Modal
@@ -90,7 +92,6 @@ export function EditTransactionModal({ isOpen, onRequestClose, transaction }: Ed
           onChange={event => setTitle(event.target.value)}
         />
 
-
         <input
           type="number"
           placeholder="Valor"
@@ -101,7 +102,9 @@ export function EditTransactionModal({ isOpen, onRequestClose, transaction }: Ed
         <TransactionTypeContainer>
           <RadioBox
             type="button"
-            onClick={() => { setType('deposit') }}
+            onClick={() => {
+              setType('deposit');
+            }}
             isActive={type === 'deposit'}
             activeColor="green"
           >
@@ -111,7 +114,9 @@ export function EditTransactionModal({ isOpen, onRequestClose, transaction }: Ed
 
           <RadioBox
             type="button"
-            onClick={() => { setType('withdraw') }}
+            onClick={() => {
+              setType('withdraw');
+            }}
             isActive={type === 'withdraw'}
             activeColor="red"
           >
@@ -119,7 +124,6 @@ export function EditTransactionModal({ isOpen, onRequestClose, transaction }: Ed
             <span>Saida</span>
           </RadioBox>
         </TransactionTypeContainer>
-
 
         <input
           placeholder="Categoria"
@@ -130,19 +134,14 @@ export function EditTransactionModal({ isOpen, onRequestClose, transaction }: Ed
         <DatePicker
           placeholderText="Data de realização"
           selected={effectuationDate}
-          onChange={(date) => setEffectuationDate(date)}
+          onChange={date => setEffectuationDate(date)}
           dateFormat="dd 'de' MMMM, yyyy"
           locale="ptBR"
           openToDate={new Date()}
           popperPlacement="top"
         />
 
-        <button
-          type="submit"
-        >
-          Confirmar Edição
-        </button>
-
+        <button type="submit">Confirmar Edição</button>
       </Container>
     </Modal>
   );

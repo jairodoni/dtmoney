@@ -3,8 +3,8 @@ import { ThemeContext } from 'styled-components';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 export function SkeletonForTable() {
-  const { title } = useContext(ThemeContext)
-  const colors = title === "dark" ? "#272E45" : "#D9DBDE"
+  const { title } = useContext(ThemeContext);
+  const colors = title === 'dark' ? '#272E45' : '#D9DBDE';
 
   let arrayForSkeleton = [
     { id: 1 },
@@ -12,7 +12,7 @@ export function SkeletonForTable() {
     { id: 3 },
     { id: 4 },
     { id: 5 },
-  ]
+  ];
 
   return (
     <tbody>
@@ -24,7 +24,7 @@ export function SkeletonForTable() {
               height={90}
               style={{
                 background: colors,
-                borderRadius: "8px 0 0 8px",
+                borderRadius: '8px 0 0 8px',
               }}
             />
           </td>
@@ -70,12 +70,12 @@ export function SkeletonForTable() {
               height={90}
               style={{
                 background: colors,
-                borderRadius: "0 8px 8px 0",
+                borderRadius: '0 8px 8px 0',
               }}
             />
           </td>
         </tr>
       ))}
     </tbody>
-  )
+  );
 }

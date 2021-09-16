@@ -1,7 +1,7 @@
 import { MouseEvent, useState } from 'react';
-import Link from "next/link";
-import { signOut, useSession } from "next-auth/client";
-import { CSVLink } from "react-csv";
+import Link from 'next/link';
+import { signOut, useSession } from 'next-auth/client';
+import { CSVLink } from 'react-csv';
 import { FaFileExport } from 'react-icons/fa';
 import { GoSignOut } from 'react-icons/go';
 import { GoMarkGithub } from 'react-icons/go';
@@ -16,21 +16,23 @@ interface PopoverOptionsProps {
 export function PopoverOptions({ options, setOptions }: PopoverOptionsProps) {
   const { searchTransactions } = useTransactions();
 
-  const [session] = useSession()
+  const [session] = useSession();
 
   const arrayTransactions = searchTransactions.map(item => ({
     Titulo: item.title,
-    Valor: new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.amount),
-    Tipo: item.type === "deposit" ? "Entrada" : "Saida",
+    Valor: new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(item.amount),
+    Tipo: item.type === 'deposit' ? 'Entrada' : 'Saida',
     Categoria: item.category,
-    Data: new Intl.DateTimeFormat('pt-BR').format(new Date(item.effectuation_date))
+    Data: new Intl.DateTimeFormat('pt-BR').format(
+      new Date(item.effectuation_date)
+    ),
   }));
 
   return (
-    <PopoverComponent
-      options={options}
-      setOptions={setOptions}
-    >
+    <PopoverComponent options={options} setOptions={setOptions}>
       <Link href="https://github.com/jairodoni">
         <a>
           <button>
@@ -52,6 +54,6 @@ export function PopoverOptions({ options, setOptions }: PopoverOptionsProps) {
         <GoSignOut size={21} />
         Sair
       </button>
-    </PopoverComponent >
-  )
+    </PopoverComponent>
+  );
 }
